@@ -1,1 +1,374 @@
-index
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Subscription Builder</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+
+  <style>
+    .bg-1 {
+      background-color: rgb(65, 179, 255);
+      /* light blue */
+      color: #ffffff;
+   /*   background-image: url("https://www.velocis.in/sites/default/files/inner-banner/Cloud-Web-Banner_0.jpg");
+   */  
+   background-image: url("./images/banner.png");
+
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
+
+    .bg-2 {
+      background-color: rgb(251, 251, 251);
+      /* for browsers that don't support images */
+
+    }
+
+    .bg-3 {
+      background-color: rgb(145, 211, 255);
+      /* for browsers that don't support images */
+    }
+
+    .container-fluid {
+      padding-top: 35px;
+      padding-bottom: 35px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container-fluid bg-1 text-left" id="title">
+    <h1 style="font-size:70px">Production Subscription</h1>
+    <hr>
+    <p style="font-size:20px">Create a new Subscription under the EA Agreement - <a href="./azure_landing_zones.html" style="color: white">LZ Home</a></p>
+  </div>
+
+  <div class="container-fluid bg-2 text-center" id="body">
+    <div class="col-sm-6" id="variables">
+      <h2>Configuration Options:</h2>
+      <p></p>
+      <form class="form-horizontal" id="intake">
+        <div class="form-group">
+       <!--   <label class="control-label col-sm-5" for="pat">Enter a GitHub PAT that has Contino-Org 2FA auth <a href="">more info</a></label> -->
+          <div class="col-sm-4">
+            <input type="hidden" class="form-control" id="pat" placeholder="github token" name="pat"  value="#{WorkflowSecret}#" style="width:350px; display: block">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-5" for="location">Tenant:</label>
+          <div class="col-sm-4">
+            <select id="tenant" name="tenant" style="width:250px" default="squad0">
+              <option value="contino">contino</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-5" for="owner">Owner Email:</label>
+          <div class="col-sm-4">
+            <input type="email" class="form-control" id="owner" placeholder="paul.kelleher@contino.io" name="owner" >
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-5" for="purpose">Purpose:</label>
+          <div class="col-sm-4">
+            <input type="string" class="form-control" id="purpose" placeholder="Production" name="purpose" >
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-5" for="alias">Alias:</label>
+          <div class="col-sm-4">
+            <input type="string" class="form-control" id="alias" placeholder="production_guid" name="alias" >
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-5" for="subscription_name">Sub Name:</label>
+          <div class="col-sm-4">
+            <input type="string" class="form-control" id="subscription_name" placeholder="unique_subscription_name name="subscription_name" >
+          </div>
+        </div>
+ 
+
+   
+ 
+        <div class="form-group">
+          <label class="control-label col-sm-5" for="apply_budget">Apply Budget:</label>
+          <div class="col-sm-4">
+            <select id="apply_budget" name="apply_budget" style="width:250px">
+              <option value="true">true</option>
+              <option value="false">false</option>
+
+            </select>                 
+          </div>
+        </div>
+
+
+
+<div class="form-group">
+  <label class="control-label col-sm-5" for="githubRepository">githubRepository :</label>
+  <div class="col-sm-4">
+    <select id="githubRepository" name="githubRepository" style="width:250px">
+      <option value="none">none</option>
+      <option value="existing">existing</option> 
+      <option value="new">new</option>
+      <option value="template">template</option>
+
+    </select>   
+    <input type="text" class="form-control" id="github_repository" placeholder="enter existing contino-engineering repo name" name="github_repository" style="width:350px; display: none" >
+    <input type="text" class="form-control" id="github_username" placeholder="enter your github username" name="github_username" style="width:250px; display: none" >
+    <input type="text" class="form-control" id="template_repo" placeholder="enter template repo name" name="terraform-boilerplate" style="width:250px; display: none" >
+    <input type="text" class="form-control" id="template_repo_org" placeholder="enter template org" name="pknw1" style="width:250px; display: none" >
+
+  </div>  
+
+</div>     
+  <div class="form-group">
+    <label class="control-label col-sm-5" for="servicePrincipal">servicePrincipal :</label>
+    <div class="col-sm-4">
+      <select id="servicePrincipal" name="servicePrincipal" style="width:250px">
+        <option value="none">none</option>
+        <option value="existing">existing</option> 
+        <option value="new">new</option>
+      </select>   
+      <input type="text" class="form-control" id="service_principal_name" placeholder="enter sp name" name="service_principal_name" style="width:250px; display: none" >
+           
+    </div>
+</div>  
+
+
+        <div class="form-group">
+          <label class="control-label col-sm-5" for="expiry">Expiry:</label>
+          <div class="col-sm-4">
+            <input type="date" id="expiry" name="expiry" style="width:250px">
+
+
+            </select>
+          </div>
+        </div>
+        </div>
+
+       
+        <div class="form-group">
+          <div class="col-sm-offset-4 col-sm-4">
+            <b id="submitButton" href="#" class="btn btn-default btn-md" align="center" style="color:blue;width:50%"
+              onclick="callGithub(this)">Submit</b>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-sm-4" id="build">
+      
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="container-fluid bg-3 text-center" id="results" style="height:100px">
+    <div id="apiresults"></div>
+    <div id="apiresponse"></div>
+  </div>
+
+  <script>
+
+
+    function e2() {
+      var u='',m='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx',i=0,rb=Math.random()*0xffffffff|0;
+      while(i++<36) {
+          var c=m[i-1],r=rb&0xf,v=c=='x'?r:(r&0x3|0x8);
+          u+=(c=='-'||c=='4')?c:v.toString(16);rb=i%8==0?Math.random()*0xffffffff|0:rb>>4
+      }
+      return u
+  }
+
+
+    var sp = document.getElementById("servicePrincipal");
+    sp.onchange=servicePrincipal;
+    
+    var gh = document.getElementById("githubRepository");
+    gh.onchange=githubRepository;
+    
+    var ok = document.getElementById("alias").value = e2() ;
+    
+
+    function githubRepository()
+{   
+    var selectedValueGH = gh.options[gh.selectedIndex].value;
+ 
+    
+    if (selectedValueGH == "new")
+    { 
+        document.getElementById("github_username").style.display = "block";
+        document.getElementById("github_repository").style.display = "none";
+        document.getElementById("template_repo_org").style.display = "none";
+        document.getElementById("template_repo").style.display = "none";
+    }
+    else
+    {
+      if (selectedValueGH == "existing")
+      {
+       document.getElementById("github_repository").style.display = "block";
+       document.getElementById("github_username").style.display = "block";
+       document.getElementById("template_repo_org").style.display = "none";
+       document.getElementById("template_repo").style.display = "none";
+      }
+      else {
+        if (selectedValueGH == "none")
+        {
+        document.getElementById("github_repository").style.display = "none";
+        document.getElementById("github_username").style.display = "none";
+        document.getElementById("template_repo_org").style.display = "none";
+        document.getElementById("template_repo").style.display = "none";
+        }
+        else {
+          if (selectedValueGH == "template")
+        {
+        document.getElementById("github_repository").style.display = "none";
+        document.getElementById("github_username").style.display = "block";
+        document.getElementById("template_repo_org").style.display = "block";
+        document.getElementById("template_repo").style.display = "block";
+
+        }
+        }
+      }
+
+    }
+}
+
+function servicePrincipal()
+{   
+    var selectedValue = sp.options[sp.selectedIndex].value;
+ 
+
+    
+      if (selectedValue == "existing")
+      {
+       document.getElementById("service_principal_name").style.display = "block";
+      }
+      else 
+        {
+        document.getElementById("service_principal_name").style.display = "none";
+        }
+      }
+
+    
+
+
+
+    $(document).ready(function () {
+      var btn = $('#submitButton,#buildButton').click(function () { // bind click handler to both button
+        $(this).addClass('hidden'); // hide the clicked button
+        btn.not(this).removeClass('hidden'); // show the another button which is hidden
+      });
+    });
+
+    function cancel(el) {
+      window.location.reload()
+    }
+
+    function clearResults(el) {
+      document.getElementById('apiresults').innerHTML = "";
+      document.getElementById('apiresponse').innerHTML = "";
+    }
+
+    function displayValues(el) {
+      let billingAccount = document.getElementById('billingAccount').value;
+      let enrolmentAccount = document.getElementById('enrolmentAccount').value;
+      let location = document.getElementById('location').value;
+      let devTestSubCount = document.getElementById('devTestSubCount').value;
+      let prodSubCount = document.getElementById('prodSubCount').value;
+      let op =
+        `
+        <div class="alert alert-info" role="alert">
+          You have selected to deploy "${document.getElementById('devTestSubCount').value}" dev/test subscription(s) and "${document.getElementById('prodSubCount').value}" production subscriptions for the "${document.getElementById('bu').value}" business unit. These subscriptions will be deployed into the "${document.getElementById('location').value}" Azure Region. If you would like to proceed, click 'BUILD'. To cancel, press 'Cancel'
+        </div> 
+        `
+      document.getElementById('output').innerHTML = op;
+    }
+
+    function callGithub(el) {
+      let bearer = 'Bearer ';
+      let pat = document.getElementById('pat').value;
+      let tenant =  document.getElementById('tenant').value;
+      let authToken = bearer.concat(pat);
+      let owner = document.getElementById('owner').value;
+      let purpose = document.getElementById('purpose').value;
+      let alias = document.getElementById('alias').value;
+      let subscription_name = document.getElementById('subscription_name').value;
+      let apply_budget = document.getElementById('apply_budget').value;
+      let githubRepository = document.getElementById('githubRepository').value;
+      let github_repository = document.getElementById('github_repository').value;
+      let github_username = document.getElementById('github_username').value
+      let servicePrincipal = document.getElementById('servicePrincipal').value
+      let service_principal_name = document.getElementById('service_principal_name').value
+      let template_repo_org = document.getElementById('template_repo_org').value;
+      let template_repo = document.getElementById('template_repo').value
+      let expiry = document.getElementById('expiry').value;
+
+
+
+     formData = JSON.stringify([{tenant: tenant, owner: owner, email: owner, purpose: purpose, alias: alias, subscription_name: subscription_name, workload: "DevTest", apply_budget: apply_budget, github_repository: github_repository, github_username: github_username, service_principal_name: service_principal_name, template_repo_org: template_repo_org, template_repo: template_repo, expiry: expiry, enrollment_account: "" }])
+      var encodedString = btoa(formData);
+      fetch('https://api.github.com/repos/contino/azure_practice_management_iac_poc/dispatches', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+          'Authorization': authToken
+        },
+        body: JSON.stringify({event_type: "form", "client_payload": {"encoded": encodedString}})
+      })
+      .then((res) => processResponse(res))
+      document.getElementById('intake').reset();
+      document.getElementById('output').innerHTML = "";
+      document.getElementById('submitButton').removeClass('hidden');
+      document.getElementById('buildButton').addClass('hidden');
+    }
+
+    function processResponse(response) {
+      if (response.status === 204) {
+        results =
+          `
+        <div class="alert alert-success" role="alert">
+          Trigger was Successfull!!
+        </div>        
+        `;
+        resp =
+          `
+				<div>Workflow ID: ${response.headers.get('x-ms-workflow-id')}</div>
+				<div>Workflow Run ID: ${response.headers.get('x-ms-workflow-run-id')}</div>
+				<div>Workflow Name: ${response.headers.get('x-ms-workflow-name')}</div>
+				`;
+        document.getElementById('apiresults').innerHTML = results;
+        document.getElementById('apiresponse').innerHTML = resp;
+        setTimeout('window.location.reload()', 10000);
+      } else {
+        results =
+          `
+        <div class="alert alert-danger" role="alert">
+          Oh no! Something went wrong :(
+        </div>        
+        `;
+        resp =
+          `
+        <div>API STATUS CODE: ${response.status}</div>
+          `
+        document.getElementById('apiresults').innerHTML = results;
+        document.getElementById('apiresponse').innerHTML = resp;
+        setTimeout('window.location.reload()', 10000);
+      }
+    }
+
+  </script>
+</body>
+
+</html>
